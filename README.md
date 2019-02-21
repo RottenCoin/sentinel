@@ -1,4 +1,4 @@
-# 01Coin Sentinel
+# OmegaCoin Sentinel
 
 An all-powerful toolset for 01coin.
 
