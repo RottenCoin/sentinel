@@ -1,26 +1,20 @@
-# Dash Sentinel
+# 01Coin Sentinel
 
-[![Build Status](https://travis-ci.org/dashpay/sentinel.svg?branch=master)](https://travis-ci.org/dashpay/sentinel)
+An all-powerful toolset for 01coin.
 
-> An automated governance helper for Dash Masternodes.
+Sentinel is an autonomous agent for persisting, processing and automating 01coin governance objects and tasks, and for expanded functions in upcoming 01coin releases.
 
-Sentinel is an autonomous agent for persisting, processing and automating Dash governance objects and tasks. It is a Python application which runs alongside the DashCore instance on each Dash Masternode.
+Sentinel is implemented as a Python application that binds to a local version 0.12.3 omegacoind instance on each 01coin Masternode.
 
-## Table of Contents
-- [Install](#install)
-  - [Dependencies](#dependencies)
-- [Usage](#usage)
-- [Configuration](#configuration)
-- [Troubleshooting](#troubleshooting)
-- [Maintainer](#maintainer)
-- [Contributing](#contributing)
-- [License](#license)
+This guide covers installing Sentinel onto an existing Masternode in Ubuntu 14.04 / 16.04.
 
-## Install
+## Installation
 
-These instructions cover installing Sentinel on Ubuntu 16.04 / 18.04.
+The following detailed steps are all condensed into ONE easy command that you can take advantage of if your 01coin Masternode was  previously installed using the scripts provided by the 01coin community (NB: the script requires you have sudo/root password), or manually using the same installation method as the scripts.
 
-### Dependencies
+    wget https://raw.githubusercontent.com/rottencoin/sentinel/master/sentinel-one-line-installer.sh && chmod +x sentinel-one-line-installer.sh && ./sentinel-one-line-installer.sh
+
+### 1. Install Prerequisites
 
 Make sure Python version 2.7.x or above is installed:
 
@@ -29,57 +23,46 @@ Make sure Python version 2.7.x or above is installed:
 Update system packages and ensure virtualenv is installed:
 
     $ sudo apt-get update
-    $ sudo apt-get -y install python-virtualenv
+    $ sudo apt-get -y install python-virtualenv virtualenv
 
-Make sure the local DashCore daemon running is at least version 12.1 (120100)
 
-    $ dash-cli getinfo | grep version
-
-### Install Sentinel
+### 2. Install Sentinel
 
 Clone the Sentinel repo and install Python dependencies.
-
-    $ git clone https://github.com/dashpay/sentinel.git && cd sentinel
+    
+    $ git clone https://github.com/rottencoin/sentinel.git omega_sentinel && cd omega_sentinel
     $ virtualenv ./venv
     $ ./venv/bin/pip install -r requirements.txt
 
-## Usage
-
-Sentinel is "used" as a script called from cron every minute.
-
-### Set up Cron
+### 3. Set up Cron
 
 Set up a crontab entry to call Sentinel every minute:
 
     $ crontab -e
 
-In the crontab editor, add the lines below, replacing '/path/to/sentinel' to the path where you cloned sentinel to:
+In the crontab editor, add the lines below, replacing '$HOME/sentinel' to the path where you cloned sentinel to:
 
-    * * * * * cd /path/to/sentinel && ./venv/bin/python bin/sentinel.py >/dev/null 2>&1
+    * * * * * cd $HOME/omega_sentinel && SENTINEL_DEBUG=1 ./venv/bin/python bin/sentinel.py >> omega_sentinel.log >/dev/null 2>&1
 
-### Test Configuration
+### 4. Test the Configuration
 
-Test the config by running tests:
+Test the config by running all tests from the sentinel folder you cloned into
 
     $ ./venv/bin/py.test ./test
 
-With all tests passing and crontab setup, Sentinel will stay in sync with dashd and the installation is complete
+With all tests passing and crontab setup, Sentinel will stay in sync with omegacoind and the installation is complete
 
 ## Configuration
 
-An alternative (non-default) path to the `dash.conf` file can be specified in `sentinel.conf`:
+An alternative (non-default) path to the `omegacoin.conf` file can be specified in `sentinel.conf`:
 
-    dash_conf=/path/to/dash.conf
+    omegacoin_conf=/path/to/omegacoin.conf
 
 ## Troubleshooting
 
 To view debug output, set the `SENTINEL_DEBUG` environment variable to anything non-zero, then run the script manually:
 
     $ SENTINEL_DEBUG=1 ./venv/bin/python bin/sentinel.py
-
-## Maintainer
-
-[@nmarley](https://github.com/nmarley)
 
 ## Contributing
 
@@ -99,6 +82,7 @@ Specifically:
 
     Commit messages should be verbose by default, consisting of a short subject line (50 chars max), a blank line and detailed explanatory text as separate paragraph(s); unless the title alone is self-explanatory (like "Corrected typo in main.cpp") then a single title line is sufficient. Commit messages should be helpful to people reading your code in the future, so explain the reasoning for your decisions. Further explanation [here](http://chris.beams.io/posts/git-commit/).
 
-## License
+### License
 
-Released under the MIT license, under the same terms as DashCore itself. See [LICENSE](LICENSE) for more info.
+Released under the MIT license, under the same terms as 01coin itself. See [LICENSE](LICENSE) for more info.
+This sw was forked from DashCore and follows the same terms.
