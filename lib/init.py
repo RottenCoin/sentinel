@@ -29,6 +29,7 @@ def are_deps_installed():
         import peewee
         import bitcoinrpc.authproxy
         import simplejson
+        import inflection
         installed = True
     except ImportError as e:
         print("[error]: Missing dependencies")
@@ -64,7 +65,7 @@ def has_omegacoin_conf():
 
     # ensure omegacoin_conf exists & readable
     #
-    # if not, print a message stating that OmegaCoinCore must be installed and
+    # if not, print a message stating that Omega Core must be installed and
     # configured, including JSONRPC access in omegacoin.conf
     try:
         f = io.open(config.omegacoin_conf)

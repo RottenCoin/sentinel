@@ -3,26 +3,23 @@
 """
 import sys
 import os
-from omegacoin_config import OmegaCoinConfig
+from omegacoin_config import OmegaConfig
 
 default_sentinel_config = os.path.normpath(
     os.path.join(os.path.dirname(__file__), '../sentinel.conf')
 )
 sentinel_config_file = os.environ.get('SENTINEL_CONFIG', default_sentinel_config)
-sentinel_cfg = OmegaCoinConfig.tokenize(sentinel_config_file)
-sentinel_version = "1.2.0"
+sentinel_cfg = OmegaConfig.tokenize(sentinel_config_file)
+sentinel_version = "1.1.0"
 min_omegacoind_proto_version_with_sentinel_ping = 70207
 
 
 def get_omegacoin_conf():
-    if sys.platform == 'win32':
-        omegacoin_conf = os.path.join(os.getenv('APPDATA'), "OmegaCoinCore/omegacoin.conf")
-    else:
-        home = os.environ.get('HOME')
+    home = os.environ.get('HOME')
 
-        omegacoin_conf = os.path.join(home, ".omegacoincore/omegacoin.conf")
-        if sys.platform == 'darwin':
-            omegacoin_conf = os.path.join(home, "Library/Application Support/OmegaCoinCore/omegacoin.conf")
+    omegacoin_conf = os.path.join(home, ".omegacoincore/omegacoin.conf")
+    if sys.platform == 'darwin':
+        omegacoin_conf = os.path.join(home, "Library/Application Support/OmegaCoinCore/omegacoin.conf")
 
     omegacoin_conf = sentinel_cfg.get('omegacoin_conf', omegacoin_conf)
 
@@ -31,10 +28,6 @@ def get_omegacoin_conf():
 
 def get_network():
     return sentinel_cfg.get('network', 'mainnet')
-
-
-def get_rpchost():
-    return sentinel_cfg.get('rpchost', '127.0.0.1')
 
 
 def sqlite_test_db_name(sqlite_file_path):
@@ -88,5 +81,4 @@ def get_db_conn():
 
 omegacoin_conf = get_omegacoin_conf()
 network = get_network()
-rpc_host = get_rpchost()
 db = get_db_conn()
