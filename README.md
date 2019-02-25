@@ -1,18 +1,16 @@
-# OmegaCoin Sentinel
+# Omega Sentinel
 
-An all-powerful toolset for 01coin.
+An all-powerful toolset for Omega.
 
-Sentinel is an autonomous agent for persisting, processing and automating 01coin governance objects and tasks, and for expanded functions in upcoming 01coin releases.
+[![Build Status](https://travis-ci.org/dashpay/sentinel.svg?branch=master)](https://travis-ci.org/dashpay/sentinel)
 
-Sentinel is implemented as a Python application that binds to a local version 0.12.3 omegacoind instance on each 01coin Masternode.
+Sentinel is an autonomous agent for persisting, processing and automating Omega V12.1 governance objects and tasks, and for expanded functions in the upcoming Omega V13 release (Evolution).
 
-This guide covers installing Sentinel onto an existing Masternode in Ubuntu 14.04 / 16.04.
+Sentinel is implemented as a Python application that binds to a local version 12.1 omegacoind instance on each Omega V12.1 Masternode.
+
+This guide covers installing Sentinel onto an existing 12.1 Masternode in Ubuntu 14.04 / 16.04.
 
 ## Installation
-
-The following detailed steps are all condensed into ONE easy command that you can take advantage of if your 01coin Masternode was  previously installed using the scripts provided by the 01coin community (NB: the script requires you have sudo/root password), or manually using the same installation method as the scripts.
-
-    wget https://raw.githubusercontent.com/rottencoin/sentinel/master/sentinel-one-line-installer.sh && chmod +x sentinel-one-line-installer.sh && ./sentinel-one-line-installer.sh
 
 ### 1. Install Prerequisites
 
@@ -23,14 +21,17 @@ Make sure Python version 2.7.x or above is installed:
 Update system packages and ensure virtualenv is installed:
 
     $ sudo apt-get update
-    $ sudo apt-get -y install python-virtualenv virtualenv
+    $ sudo apt-get -y install python-virtualenv
 
+Make sure the local Omega daemon running is at least version 12.1 (120100)
+
+    $ omegacoin-cli getinfo | grep version
 
 ### 2. Install Sentinel
 
 Clone the Sentinel repo and install Python dependencies.
-    
-    $ git clone https://github.com/rottencoin/sentinel.git omega_sentinel && cd omega_sentinel
+
+    $ git clone https://github.com/omegacoinnetwork/sentinel.git && cd sentinel
     $ virtualenv ./venv
     $ ./venv/bin/pip install -r requirements.txt
 
@@ -40,13 +41,13 @@ Set up a crontab entry to call Sentinel every minute:
 
     $ crontab -e
 
-In the crontab editor, add the lines below, replacing '$HOME/sentinel' to the path where you cloned sentinel to:
+In the crontab editor, add the lines below, replacing '/home/YOURUSERNAME/sentinel' to the path where you cloned sentinel to:
 
-    * * * * * cd $HOME/omega_sentinel && SENTINEL_DEBUG=1 ./venv/bin/python bin/sentinel.py >> omega_sentinel.log >/dev/null 2>&1
+    * * * * * cd /home/YOURUSERNAME/sentinel && ./venv/bin/python bin/sentinel.py >/dev/null 2>&1
 
 ### 4. Test the Configuration
 
-Test the config by running all tests from the sentinel folder you cloned into
+Test the config by runnings all tests from the sentinel folder you cloned into
 
     $ ./venv/bin/py.test ./test
 
@@ -66,11 +67,11 @@ To view debug output, set the `SENTINEL_DEBUG` environment variable to anything 
 
 ## Contributing
 
-Please follow the [DashCore guidelines for contributing](https://github.com/dashpay/dash/blob/master/CONTRIBUTING.md).
+Please follow the [DashCore guidelines for contributing](https://github.com/dashpay/omegacoin/blob/v0.12.1.x/CONTRIBUTING.md).
 
 Specifically:
 
-* [Contributor Workflow](https://github.com/dashpay/dash/blob/master/CONTRIBUTING.md#contributor-workflow)
+* [Contributor Workflow](https://github.com/dashpay/omegacoin/blob/v0.12.1.x/CONTRIBUTING.md#contributor-workflow)
 
     To contribute a patch, the workflow is as follows:
 
@@ -84,5 +85,4 @@ Specifically:
 
 ### License
 
-Released under the MIT license, under the same terms as 01coin itself. See [LICENSE](LICENSE) for more info.
-This sw was forked from DashCore and follows the same terms.
+Released under the MIT license, under the same terms as DashCore itself. See [LICENSE](LICENSE) for more info.
